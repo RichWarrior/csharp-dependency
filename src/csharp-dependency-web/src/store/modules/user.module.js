@@ -1,6 +1,6 @@
 import ApiService from "@/common/api.service";
 import JwtService from "@/common/jwt.service";
-import { CHECK_USER, CHECK_GITHUB_USER } from "@/store/actions.type";
+import { CHECK_USER, CHECK_GITHUB_USER, REGISTER } from "@/store/actions.type";
 import { PURGE_USER } from "@/store/mutations.type";
 
 const state = {
@@ -25,6 +25,17 @@ const actions = {
   [CHECK_GITHUB_USER](context, payload) {
     return new Promise((resolve, reject) => {
       ApiService.post("/user/checkgithubuser", payload)
+        .then(payload => {
+          resolve(payload);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  },
+  [REGISTER](context, payload) {
+    return new Promise((resolve, reject) => {
+      ApiService.post("/user/register", payload)
         .then(payload => {
           resolve(payload);
         })

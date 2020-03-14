@@ -1,5 +1,8 @@
-﻿using csharp.dependency.core.Interface;
+﻿using csharp.dependency.core.CustomEntity.Github;
+using csharp.dependency.core.Interface;
+using Newtonsoft.Json;
 using RestSharp;
+using System;
 using System.Net;
 
 namespace csharp.dependency.service.GeneralService
@@ -21,10 +24,19 @@ namespace csharp.dependency.service.GeneralService
             return response;
         }
 
-        public bool Check_Github_User(string username)
+        public Tuple<bool,GithubUser> Check_Github_User(string username)
         {
+            Tuple<bool, GithubUser> result = null;
             string path = $"users/{username}";
-            return Execute(path).StatusCode == HttpStatusCode.OK ? true : false;            
+            IRestResponse response = Execute(path);
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                GithubUser githubUser = JsonConvert.DeserializeObject<GithubUser>(response.Content);
+                result = new Tuple<bool, GithubUser>(true, githubUser);
+            }
+            else
+                result = new Tuple<bool, GithubUser>(false,null);
+            return result;
         }
     }
 }

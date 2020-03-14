@@ -1,4 +1,10 @@
 export default{
     successful : "İşleminiz Başarıyla Tamamlandı!",
-    invalidModel:'Eksik Parametre'
+    invalidModel:'Eksik Parametre',
+    unSuccessful:'İşleminiz Tamamlanırken Bir Hataya Rastlandı!',
+
+    // User Region
+    githubUserNotFound : 'Böyle Bir Github Kullanıcısı Bulunamadı',
+    duplicatedUser:'Böyle Bir Kullanıcı Zaten Mevcut',
+    // User Region
 }

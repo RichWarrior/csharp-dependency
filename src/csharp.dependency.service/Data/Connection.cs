@@ -6,7 +6,7 @@
 
         public Connection()
         {
-            mysqlConnection = "Server=192.168.2.162;Database=csharpdependency;Uid=root;Pwd=03102593;";
+            mysqlConnection = "Server=165.22.81.76;Database=csharpdependency;Port=3306;Uid=root;Pwd=03102593;";
         }
     }
 }

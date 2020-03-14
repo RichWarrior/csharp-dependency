@@ -13,6 +13,24 @@ namespace csharp.dependency.core.Enums
         /// Validate Olmayan Entitylerde Dönecek Cevap
         /// </summary>
         [Description("error.invalidModel")]
-        invalidModel = 2
+        invalidModel = 2,
+        /// <summary>
+        /// Hata Durumlarında Dönecek Cevap
+        /// </summary>
+        [Description("error.unSuccessful")]
+        unSuccessful = 3,
+
+        #region User Region
+        /// <summary>
+        /// Github Kullanıcısı Bulunamadıysa Dönecek Cevap.
+        /// </summary>
+        [Description("error.githubUserNotFound")]
+        githubUserNotFound = 100,
+        /// <summary>
+        /// Sistemde Kayıtlı Kullanıcı Varsa Dönecek Cevap
+        /// </summary>
+        [Description("error.duplicatedUser")]
+        duplicatedUser = 101
+        #endregion
     }
 }

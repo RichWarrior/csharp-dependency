@@ -8,6 +8,9 @@
       </transition>
     </v-content>
     <dashjs-footer :drawerStatus="drawerStatus"></dashjs-footer>
+     <v-overlay :value="$store.getters.getLoadingState">
+      <vue-loaders-pacman scale="1"></vue-loaders-pacman>
+    </v-overlay>
   </v-app>
 </template>
 

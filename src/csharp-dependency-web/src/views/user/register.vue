@@ -82,7 +82,7 @@ const registerInitialize = () => {
   return Object.assign({}, registerEntity);
 };
 
-import { CHECK_GITHUB_USER } from "@/store/actions.type";
+import { CHECK_GITHUB_USER,REGISTER } from "@/store/actions.type";
 
 export default {
   data() {
@@ -112,10 +112,21 @@ export default {
       if (!this.registerItem.github_username) return;
       let entity = checkGithubUserInitialize();
       entity.username = this.registerItem.github_username;
-      this.$store.dispatch(CHECK_GITHUB_USER, entity);
+      this.$store.dispatch(CHECK_GITHUB_USER, entity).catch((err)=>{
+        this.$swal('HATA',this.$t(err.message),'error');
+        this.valid = false;
+      });
     },
     register() {
-      this.$router.push({ path: "/" });
+      if(this.valid){
+        this.$store.dispatch(REGISTER,this.registerItem).then((payload)=>{
+          this.$swal(this.$t('base.succcessTitle'),this.$t(payload.message),'success')
+          this.registerItem = registerInitialize();
+          this.$router.push({path:'/'})
+        }).catch((err)=>{
+          this.$swal(this.$t('base.errorTitle'),this.$t(err.message),'error')
+        })
+      }
     }
   }
 };

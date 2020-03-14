@@ -111,6 +111,7 @@ namespace csharp.dependency.api
             services.AddScoped<IDbContext, DbContext>();
             services.AddScoped<IMethod, SMethod>();
             services.AddScoped<IGithub, SGithub>();
+            services.AddScoped<IUser, SUser>();
             #endregion
         }
 
