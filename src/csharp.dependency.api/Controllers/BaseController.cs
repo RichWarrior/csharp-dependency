@@ -23,5 +23,11 @@ namespace csharp.dependency.api.Controllers
             Validator validator = (Validator)Activator.CreateInstance(typeof(Validator));
             return ((IValidator)validator).Validate(model).IsValid;
         }
+
+        [NonAction]
+        public long GetUserId()
+        {
+            return Convert.ToInt64(HttpContext.User.Identity.Name);
+        }
     }
 }

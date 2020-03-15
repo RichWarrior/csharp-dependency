@@ -1,4 +1,5 @@
 export default{
     succcessTitle : 'Successful',
-    errorTitle :'Unsuccessul'
+    errorTitle :'Unsuccessul',
+    logOut : 'Logout'
 }

@@ -5,6 +5,7 @@ export default {
   
   // User Region
   githubUserNotFound: "No such Github User Found",
-  duplicatedUser: "Such a User Already Exists"
+  duplicatedUser: "Such a User Already Exists",
+  loginFailed:'Email Or Password Is Incorrect'
   // User Region
 };

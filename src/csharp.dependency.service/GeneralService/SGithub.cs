@@ -38,5 +38,14 @@ namespace csharp.dependency.service.GeneralService
                 result = new Tuple<bool, GithubUser>(false,null);
             return result;
         }
+
+        public GithubUser Get_Github_User(string username)
+        {
+            string path = $"users/{username}";
+            IRestResponse response = Execute(path);
+            if (response.StatusCode == HttpStatusCode.OK)
+                return JsonConvert.DeserializeObject<GithubUser>(response.Content);
+            return null;
+        }
     }
 }

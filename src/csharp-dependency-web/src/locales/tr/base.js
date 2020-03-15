@@ -1,4 +1,5 @@
 export default{
     succcessTitle : 'Başarılı',
-    errorTitle:'Başarısız'
+    errorTitle:'Başarısız',
+    logOut : 'Oturum Kapat'
 }

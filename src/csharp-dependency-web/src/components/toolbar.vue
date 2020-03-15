@@ -5,26 +5,17 @@
         <v-icon>fa fa-bars</v-icon>
       </v-app-bar-nav-icon>
       <v-toolbar-title class="text-uppercase hidden-lg-and-up">
-        <span>Dash</span>
-        <span class="font-weight-black">JS</span>
+        <span>C#</span>
+        <span class="font-weight-black">Dependency</span>
       </v-toolbar-title>
       <v-toolbar-title class="text-uppercase hidden-md-and-down" v-if="!drawerStatus">
-        <span>Dash</span>
-        <span class="font-weight-black">JS</span>
+        <span>C#</span>
+        <span class="font-weight-black">Dependency</span>
       </v-toolbar-title>
       <v-row class="ml-2 hidden-sm-and-down">
-        <v-btn icon>
-          <v-icon small>fa fa-user</v-icon>
-        </v-btn>
-        <v-btn icon @click="$router.push({path:'/Lock'})">
-          <v-icon small>fa fa-lock</v-icon>
-        </v-btn>
         <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon small>fa fa-search</v-icon>
-        </v-btn>
-        <v-btn icon>
-          <v-icon small>fa fa-bell</v-icon>
+        <v-btn icon @click="logOut">
+          <v-icon small>fa fa-sign-out-alt</v-icon>
         </v-btn>
       </v-row>
       <v-row justify="end" class="hidden-sm-and-up">
@@ -35,25 +26,15 @@
             </v-btn>
           </template>
 
-          <v-list>
-            <v-list-item>
-              <v-list-item-title>
-                <v-row class="ma-0">
-                  <v-icon small>fa fa-user</v-icon>
-                  <v-col class="pa-1">
-                    <span>Profile</span>
-                  </v-col>
-                </v-row>
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="$router.push({path:'/Lock'})">
+          <v-list>          
+            <v-list-item @click="logOut">
               <v-row class="ma-0">
-                <v-icon small>fa fa-lock</v-icon>
+                <v-icon small>fa fa-sign-out-alt</v-icon>
                 <v-col class="pa-1">
-                  <span>Lock</span>
+                  <span>{{$t('base.logOut')}}</span>
                 </v-col>
               </v-row>
-            </v-list-item>           
+            </v-list-item>
           </v-list>
         </v-menu>
       </v-row>
@@ -62,6 +43,7 @@
 </template>
 
 <script>
+import { LOGOUT } from "@/store/actions.type";
 export default {
   name: "Toolbar",
   props: {
@@ -73,6 +55,11 @@ export default {
   methods: {
     drawerStatusChange() {
       this.$emit("DrawerStatusChange");
+    },
+    logOut() {
+      this.$store.dispatch(LOGOUT).then(() => {
+        this.$router.push({ path: "/" });
+      });
     }
   }
 };

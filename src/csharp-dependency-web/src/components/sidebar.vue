@@ -11,8 +11,8 @@
     >
       <v-app-bar dark color="toolbarColor" class="elevation-12">
         <v-toolbar-title class="text-uppercase">
-          <span class="align-center">Dash</span>
-          <span class="font-weight-black">JS</span>
+          <span class="align-center">C#</span>
+          <span class="font-weight-black">Dependency</span>
         </v-toolbar-title>
       </v-app-bar>
       <v-list>

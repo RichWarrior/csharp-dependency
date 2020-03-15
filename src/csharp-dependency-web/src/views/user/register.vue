@@ -113,7 +113,7 @@ export default {
       let entity = checkGithubUserInitialize();
       entity.username = this.registerItem.github_username;
       this.$store.dispatch(CHECK_GITHUB_USER, entity).catch((err)=>{
-        this.$swal('HATA',this.$t(err.message),'error');
+        this.$swal(this.$t('base.errorTitle'),this.$t(err.message),'error');
         this.valid = false;
       });
     },

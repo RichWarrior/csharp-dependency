@@ -18,5 +18,12 @@ namespace csharp.dependency.core.Interface
         /// <param name="user"></param>
         /// <returns></returns>
         long Insert_User(User user);
+        /// <summary>
+        /// Kullanıcı Girişi Yapmak İçin Kullanılır.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        User Check_User_With_Password(string email, string password);
     }
 }

@@ -1,13 +1,18 @@
 ﻿using csharp.dependency.api.Models;
 using csharp.dependency.core.CustomEntity.Request.User;
+using csharp.dependency.core.CustomEntity.Response.User;
 using csharp.dependency.core.Entity;
 using csharp.dependency.core.Enums;
 using csharp.dependency.core.Interface;
 using csharp.dependency.core.Validation.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
+using System.Text;
 
 namespace csharp.dependency.api.Controllers
 {
@@ -35,11 +40,23 @@ namespace csharp.dependency.api.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody]RequestLogin credentialItem)
         {
+            BaseResult<ResponseLogin> baseResult = new BaseResult<ResponseLogin>();
             if (!Validate<RequestLoginValidator>(credentialItem))
             {
-
+                baseResult.statusCode = HttpStatusCode.NotFound;
+                baseResult.message = _SMethod.Get_Enum_Description(enumErrorMessage.invalidModel);
+                return new NotFoundObjectResult(baseResult);
             }
-            return new JsonResult(credentialItem);
+            User user = _SUser.Check_User_With_Password(credentialItem.email,_SMethod.Generate_MD5(credentialItem.password));
+            if (user == null)
+            {
+                baseResult.statusCode = HttpStatusCode.NotFound;
+                baseResult.message = _SMethod.Get_Enum_Description(enumErrorMessage.loginFailed);
+                return new NotFoundObjectResult(baseResult);
+            }
+            baseResult.data.user = user;
+            baseResult.data.token = Generate_Token(user.id.ToString());
+            return new JsonResult(baseResult);
         }
 
         /// <summary>
@@ -99,6 +116,7 @@ namespace csharp.dependency.api.Controllers
                 github_username = registerItem.github_username,
                 email = registerItem.email,
                 password = _SMethod.Generate_MD5(registerItem.password),
+                default_lang = "en",
                 creation_date = DateTime.Now,
                 creator_id = 0,
                 status_id = (int)enumStatus.Aktif
@@ -111,5 +129,25 @@ namespace csharp.dependency.api.Controllers
             }
             return new JsonResult(baseResult);
         }
+
+        #region JWT
+        [NonAction]
+        private string Generate_Token(string userId)
+        {
+            var someClaims = new Claim[]{
+                new Claim(JwtRegisteredClaimNames.UniqueName,userId),
+                new Claim(JwtRegisteredClaimNames.Email, userId),
+                new Claim(JwtRegisteredClaimNames.NameId,Guid.NewGuid().ToString()),
+            };
+            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("CloudberryTelekomC3"));
+            var token = new JwtSecurityToken(
+                claims: someClaims,
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+        #endregion
     }
 }

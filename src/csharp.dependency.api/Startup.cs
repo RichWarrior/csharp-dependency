@@ -112,7 +112,7 @@ namespace csharp.dependency.api
             services.AddScoped<IMethod, SMethod>();
             services.AddScoped<IGithub, SGithub>();
             services.AddScoped<IUser, SUser>();
-            #endregion
+            #endregion            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

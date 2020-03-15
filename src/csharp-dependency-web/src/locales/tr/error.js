@@ -6,5 +6,6 @@ export default{
     // User Region
     githubUserNotFound : 'Böyle Bir Github Kullanıcısı Bulunamadı',
     duplicatedUser:'Böyle Bir Kullanıcı Zaten Mevcut',
+    loginFailed:'E-Posta Veya Şifre Hatalı'
     // User Region
 }

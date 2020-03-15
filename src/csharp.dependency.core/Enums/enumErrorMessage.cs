@@ -30,7 +30,9 @@ namespace csharp.dependency.core.Enums
         /// Sistemde Kayıtlı Kullanıcı Varsa Dönecek Cevap
         /// </summary>
         [Description("error.duplicatedUser")]
-        duplicatedUser = 101
+        duplicatedUser = 101,
+        [Description("error.loginFailed")]
+        loginFailed = 102
         #endregion
     }
 }

@@ -20,7 +20,8 @@
                 </v-col>
                 <v-col class="pa-1" cols="12" md="12" sm="12">
                   <v-text-field
-                    v-model="email"
+                    v-model="user.email"
+                    :rules="emailRule"
                     outlined
                     :label="$t('login.email')"
                     :placeholder="$t('login.emailPlaceholder')"
@@ -28,7 +29,8 @@
                     prepend-icon="fa fa-envelope"
                   ></v-text-field>
                   <v-text-field
-                    v-model="password"
+                    v-model="user.password"
+                    :rules="passwordRule"
                     outlined
                     :label="$t('login.password')"
                     :placeholder="$t('login.passwordPlaceholder')"
@@ -45,8 +47,10 @@
               </v-card-actions>
               <v-row>
                 <v-col cols="12" md="12" sm="12">
-                  <v-btn block color="#5D9CEC" dark @click="login">{{$t('login.login')}}</v-btn>
-                </v-col>               
+                  <v-btn :disabled="!valid" block color="#5D9CEC" @click="login">
+                    <span class="white--text">{{$t('login.login')}}</span>
+                  </v-btn>
+                </v-col>
                 <v-col cols="12" md="12" sm="12">
                   <v-btn block @click="$router.push({path:'/register'})">{{$t('login.register')}}</v-btn>
                 </v-col>
@@ -60,15 +64,27 @@
 </template>
 
 <script>
+import loginEntity from "@/entity/request/user/Login";
+
+const loginInitialize = () => {
+  return Object.assign({}, loginEntity);
+};
+
+import { LOGIN } from "@/store/actions.type";
 export default {
-  data: () => ({
-    valid: false,
-    email: "",
-    password: "",
-    passwordFieldType: "password",
-    passwordAppendIcon: "fa fa-eye",
-    rememberMe: false
-  }),
+  data() {
+    return {
+      valid: false,
+      user: loginInitialize(),
+      emailRule: [
+        v => !!v || this.$t("register.emailRule.required"),
+        v => /.+@.+\..+/.test(v) || this.$t("register.emailRule.valid")
+      ],
+      passwordRule: [v => !!v || this.$t("register.passwordRule")],
+      passwordFieldType: "password",
+      passwordAppendIcon: "fa fa-eye"
+    };
+  },
   methods: {
     passwordAppendIconClick() {
       this.passwordFieldType =
@@ -79,7 +95,20 @@ export default {
           : "fa fa-eye";
     },
     login() {
-      this.$router.push({ path: "/" });
+      if (this.valid) {
+        this.$store
+          .dispatch(LOGIN, this.user)
+          .then(() => {
+            this.$router.push({path:'/home'})
+          })
+          .catch(err => {
+            this.$swal(
+              this.$t("base.errorTitle"),
+              this.$t(err.message),
+              "error"
+            );
+          });
+      }
     }
   }
 };

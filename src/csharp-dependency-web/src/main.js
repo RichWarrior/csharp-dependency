@@ -17,20 +17,16 @@ router.beforeEach((to, from, next) => {
   store.dispatch(CHECK_USER).then();
   const isAuthenticated = store.getters.isAuthenticated;
   if(isAuthenticated){
-    if(to.path === '/'){
-      router.push({path:'/Home'})
-    }else{
-      next();
+    if(to.path === '/' || to.path==='/register'){
+      router.push({path:'/home'})
     }
   }
   if(!isAuthenticated){
     if(to.path !=='/' && to.path!=='/register'){
       router.push({path:'/'})
-    }else{
-      next();
     }
   } 
-  next(false);
+  next();
 })
 
 new Vue({
