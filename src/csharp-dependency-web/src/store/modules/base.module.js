@@ -1,12 +1,15 @@
+import ApiService from '@/common/api.service'
 import languageService from '@/common/language.service'
 import {
     IS_LOADING,
-    CHANGE_BLANK_STATUS
+    CHANGE_BLANK_STATUS,
+    CHANGE_LANGUAGE
 } from "../actions.type";
 
 import {
     SET_LOADING,
-    SET_BLANK_STATUS
+    SET_BLANK_STATUS,
+    SET_LANGUAGE
 } from "../mutations.type";
 
 const state ={
@@ -34,6 +37,16 @@ const actions ={
     [CHANGE_BLANK_STATUS](context,data){
         context.commit(SET_BLANK_STATUS,data);
     }, 
+    [CHANGE_LANGUAGE](context,payload){
+        return new Promise((resolve,reject)=>{
+            ApiService.post('/user/changelanguage',payload).then(()=>{
+                context.commit(SET_LANGUAGE,payload);
+                resolve(payload);
+            }).catch((err)=>{
+                reject(err);
+            })            
+        })  
+    }
 }
 
 const mutations ={
@@ -42,6 +55,10 @@ const mutations ={
     },
     [SET_BLANK_STATUS](state,payload){
         state.isBlankTemplate = payload;
+    },
+    [SET_LANGUAGE](state,payload){
+        languageService.saveLang(payload.locale);
+        state.defaultLocale = payload.locale;
     }
 }
 

@@ -50,7 +50,7 @@ namespace csharp.dependency.api
                       ValidateLifetime = true,
                       ValidateIssuerSigningKey = true,
                       IssuerSigningKey = new SymmetricSecurityKey(
-                          Encoding.UTF8.GetBytes("csharp-dependency-auth"))
+                          Encoding.UTF8.GetBytes("csharpdependencyauth"))
                   };
 
                   options.Events = new JwtBearerEvents
@@ -112,10 +112,14 @@ namespace csharp.dependency.api
             services.AddScoped<IMethod, SMethod>();
             services.AddScoped<IGithub, SGithub>();
             services.AddScoped<IUser, SUser>();
-            #endregion            
+            #endregion
+            #region RedisService
+            services.AddSingleton<SRedisService>();
+            #endregion
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            SRedisService _SRedisService)
         {
             if (env.IsDevelopment())
             {
@@ -134,6 +138,9 @@ namespace csharp.dependency.api
                 c.SwaggerEndpoint("/swagger/CSharpDependency/swagger.json", "CSharp Dependency");
             });
             app.UseMvc();
+            #endregion
+            #region Redis Connection
+            _SRedisService.Connect();
             #endregion
         }
     }

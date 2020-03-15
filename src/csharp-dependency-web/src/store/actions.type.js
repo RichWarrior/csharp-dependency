@@ -1,6 +1,7 @@
 // Base Module Region
 export const IS_LOADING = 'isLoading';
 export const CHANGE_BLANK_STATUS = 'changeBlankStatus';
+export const CHANGE_LANGUAGE = 'changeLanguage';
 // Base Module Region
 
 // User Module Region

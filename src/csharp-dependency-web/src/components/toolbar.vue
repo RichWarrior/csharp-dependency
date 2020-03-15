@@ -14,6 +14,26 @@
       </v-toolbar-title>
       <v-row class="ml-2 hidden-sm-and-down">
         <v-spacer></v-spacer>
+        <v-menu class="hidden-sm-and-down">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn v-bind="attrs" v-on="on" icon>
+              <v-icon>fa fa-flag</v-icon>
+            </v-btn>
+          </template>
+
+          <v-list>
+            <v-list-item @click="changeLanguage('tr')">
+              <v-row class="ma-0">
+                <country-flag country="tr" />
+              </v-row>
+            </v-list-item>
+            <v-list-item @click="changeLanguage('en')">
+              <v-row class="ma-0">
+                <country-flag country="gb" />
+              </v-row>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-btn icon @click="logOut">
           <v-icon small>fa fa-sign-out-alt</v-icon>
         </v-btn>
@@ -26,7 +46,7 @@
             </v-btn>
           </template>
 
-          <v-list>          
+          <v-list>
             <v-list-item @click="logOut">
               <v-row class="ma-0">
                 <v-icon small>fa fa-sign-out-alt</v-icon>
@@ -43,7 +63,13 @@
 </template>
 
 <script>
-import { LOGOUT } from "@/store/actions.type";
+import changeLanguageEntity from "@/entity/request/user/ChangeLanguage";
+
+const languageInitialize = () => {
+  return Object.assign({}, changeLanguageEntity);
+};
+
+import { LOGOUT, CHANGE_LANGUAGE } from "@/store/actions.type";
 export default {
   name: "Toolbar",
   props: {
@@ -60,6 +86,19 @@ export default {
       this.$store.dispatch(LOGOUT).then(() => {
         this.$router.push({ path: "/" });
       });
+    },
+    changeLanguage(lang) {
+      let langItem = languageInitialize();
+      langItem.locale = lang;
+      this.$store
+        .dispatch(CHANGE_LANGUAGE, langItem)
+        .then(() => {
+          this.$i18n.locale = lang;
+          window.location.reload();
+        })
+        .catch(err => {
+          this.$swal(this.$t("base.errorTitle"), this.$t(err.message), "error");
+        });
     }
   }
 };

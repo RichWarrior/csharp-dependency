@@ -14,6 +14,8 @@ import authorizelayout from "../layouts/authorizeLayout";
 import blanklayout from "@/layouts/blankLayout";
 import unauthorizelayout from "@/layouts/unAuthorizedLayout";
 
+import CountryFlag from 'vue-country-flag'
+
 function setupComponents(Vue) {
   Vue.use(VueSweetalert2);
   Vue.use(VueLoaders);
@@ -30,6 +32,8 @@ function setupComponents(Vue) {
   Vue.component("dashjs-authorize", authorizelayout);
   Vue.component("dashjs-unauthorize", unauthorizelayout);
   Vue.component("dashjs-blank", blanklayout);
+
+  Vue.component('country-flag', CountryFlag)
 
 }
 

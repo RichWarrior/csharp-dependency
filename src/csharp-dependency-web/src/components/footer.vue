@@ -2,21 +2,28 @@
   <div>
     <v-footer height="50" dark class="transparent elevation-12 hidden-md-and-down" inset app>
       <span class="black--text">
-          <strong>DashJs Footer</strong>
-        </span>
-        <div class="flex-grow-1"></div>
-        <span class="black--text">
-          <strong>Version: {{version}}</strong>
-        </span>
+        <strong>DashJs Footer</strong>
+      </span>
+      <div class="flex-grow-1"></div>
+      <span class="black--text">
+        <strong>Version: {{version}}</strong>
+      </span>
     </v-footer>
-    <v-footer height="50" dark class="transparent elevation-12 hidden-lg-and-up" inset app v-if="!drawerStatus">
-        <span class="black--text">
-          <strong>DashJs Footer</strong>
-        </span>
-        <div class="flex-grow-1"></div>
-        <span class="black--text">
-          <strong>Version: {{version}}</strong>
-        </span>
+    <v-footer
+      height="50"
+      dark
+      class="transparent elevation-12 hidden-lg-and-up"
+      inset
+      app
+      v-if="!drawerStatus"
+    >
+      <span class="black--text">
+        <strong>DashJs Footer</strong>
+      </span>
+      <div class="flex-grow-1"></div>   
+      <span class="black--text">
+        <strong>Version: {{version}}</strong>
+      </span>
     </v-footer>
   </div>
 </template>
@@ -26,7 +33,7 @@ export default {
   props: {
     drawerStatus: {
       type: Boolean,
-      required: true,
+      required: true
     }
   },
   data: () => ({
@@ -34,7 +41,7 @@ export default {
   }),
   created() {
     let versionCode = JSON.stringify(require("../../package.json").version);
-    this.version = versionCode.replace('"','').replace('"','');
+    this.version = versionCode.replace('"', "").replace('"', "");
   }
 };
 </script>

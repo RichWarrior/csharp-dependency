@@ -1,4 +1,5 @@
 ﻿using csharp.dependency.core.Interface;
+using csharp.dependency.service.GeneralService;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,10 +11,12 @@ namespace csharp.dependency.api.Controllers
     public class BaseController : ControllerBase
     {
         public IMethod _SMethod;
+        public readonly SRedisService _SRedisService;
 
-        public BaseController(IMethod _SMethod)
+        public BaseController(IMethod _SMethod,SRedisService _SRedisService)
         {
             this._SMethod = _SMethod;
+            this._SRedisService = _SRedisService;
         }
 
         [NonAction]

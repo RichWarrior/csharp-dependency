@@ -21,11 +21,21 @@ namespace csharp.dependency.service.GeneralService
         {
             string sql = "SELECT * FROM user WHERE email=@email AND password=@password AND status_id = 2";
             return dbContext.GetByQuery<User>(sql, new { email = email, password = password });
-        }
+        }       
 
         public long Insert_User(User user)
         {
             return dbContext.Insert(user);
+        }
+
+        public User Get_By_Id(long id)
+        {
+            return dbContext.GetById<User>(id);
+        }
+
+        public bool Update_User(User user)
+        {
+            return dbContext.Update(user);
         }
     }
 }

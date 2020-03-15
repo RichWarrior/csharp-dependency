@@ -1,18 +1,22 @@
 ﻿using csharp.dependency.api.Models;
+using csharp.dependency.core.CustomEntity.Github;
 using csharp.dependency.core.CustomEntity.Request.User;
 using csharp.dependency.core.CustomEntity.Response.User;
 using csharp.dependency.core.Entity;
 using csharp.dependency.core.Enums;
 using csharp.dependency.core.Interface;
 using csharp.dependency.core.Validation.User;
+using csharp.dependency.service.GeneralService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace csharp.dependency.api.Controllers
 {
@@ -21,12 +25,14 @@ namespace csharp.dependency.api.Controllers
     /// </summary>
     [Route("api/user")]
     [ApiController]
+    [Authorize]
     public class UserController : BaseController
     {
         IGithub _SGithub;
         IUser _SUser;
-        public UserController(IMethod _SMethod,IGithub _SGithub,IUser _SUser) 
-            : base(_SMethod)
+        public UserController(IMethod _SMethod,SRedisService _SRedisService,
+            IGithub _SGithub,IUser _SUser) 
+            : base(_SMethod,_SRedisService)
         {
             this._SGithub = _SGithub;
             this._SUser = _SUser;
@@ -38,7 +44,7 @@ namespace csharp.dependency.api.Controllers
         /// <returns></returns>
         [HttpPost("login")]
         [AllowAnonymous]
-        public IActionResult Login([FromBody]RequestLogin credentialItem)
+        public async Task<IActionResult> Login([FromBody]RequestLogin credentialItem)
         {
             BaseResult<ResponseLogin> baseResult = new BaseResult<ResponseLogin>();
             if (!Validate<RequestLoginValidator>(credentialItem))
@@ -56,6 +62,8 @@ namespace csharp.dependency.api.Controllers
             }
             baseResult.data.user = user;
             baseResult.data.token = Generate_Token(user.id.ToString());
+            GithubUser githubUser = _SGithub.Get_Github_User(user.github_username);
+            await _SRedisService.Set((int)enumRedis.users, user.id.ToString(), JsonConvert.SerializeObject(githubUser),DateTime.Now.AddHours(3));
             return new JsonResult(baseResult);
         }
 
@@ -84,7 +92,11 @@ namespace csharp.dependency.api.Controllers
             }
             return new JsonResult(baseResult.data);
         }
-
+        /// <summary>
+        /// Kayıt Olmak İçin Kullanılır
+        /// </summary>
+        /// <param name="registerItem"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         [AllowAnonymous]
         public IActionResult Register([FromBody]RequestRegister registerItem)
@@ -129,6 +141,41 @@ namespace csharp.dependency.api.Controllers
             }
             return new JsonResult(baseResult);
         }
+        /// <summary>
+        /// Varsayılan Dili Değiştirmek İçin Kullanılır.
+        /// </summary>
+        /// <param name="languageItem"></param>
+        /// <returns></returns>
+        [HttpPost("changelanguage")]
+        public IActionResult Change_Language([FromBody]RequestChangeLanguage languageItem)
+        {
+            BaseResult<bool> baseResult = new BaseResult<bool>();
+            if (!Validate<RequestChangeLanguageValidator>(languageItem))
+            {
+                baseResult.statusCode = HttpStatusCode.NotFound;
+                baseResult.message = _SMethod.Get_Enum_Description(enumErrorMessage.invalidModel);
+                return new NotFoundObjectResult(baseResult);
+            }
+            User user = _SUser.Get_By_Id(GetUserId());
+            user.default_lang = languageItem.locale;
+            baseResult.data = _SUser.Update_User(user);
+            if (!baseResult.data)
+            {
+                baseResult.statusCode = HttpStatusCode.NotFound;
+                baseResult.message = _SMethod.Get_Enum_Description(enumErrorMessage.unSuccessful);
+                return new NotFoundObjectResult(baseResult);
+            }
+            return new JsonResult(baseResult);
+        }
+        /// <summary>
+        /// Giriş Yapmış Kullanıcıya Ait Bilgileri Geriye Döndürür.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getuser")]
+        public IActionResult Get_User()
+        {
+            return new JsonResult(new { });
+        }
 
         #region JWT
         [NonAction]
@@ -139,7 +186,7 @@ namespace csharp.dependency.api.Controllers
                 new Claim(JwtRegisteredClaimNames.Email, userId),
                 new Claim(JwtRegisteredClaimNames.NameId,Guid.NewGuid().ToString()),
             };
-            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("CloudberryTelekomC3"));
+            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("csharpdependencyauth"));
             var token = new JwtSecurityToken(
                 claims: someClaims,
                 expires: DateTime.Now.AddHours(3),

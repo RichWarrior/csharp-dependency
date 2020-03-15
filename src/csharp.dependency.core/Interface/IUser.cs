@@ -25,5 +25,17 @@ namespace csharp.dependency.core.Interface
         /// <param name="password"></param>
         /// <returns></returns>
         User Check_User_With_Password(string email, string password);
+        /// <summary>
+        /// Id'ye Göre Kullanıcıyı Getirir.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        User Get_By_Id(long id);
+        /// <summary>
+        /// Kullanıcı Güncellemek İçin Kullanılır.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        bool Update_User(User user);
     }
 }
