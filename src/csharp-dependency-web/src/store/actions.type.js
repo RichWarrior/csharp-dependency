@@ -10,4 +10,5 @@ export const CHECK_USER = 'checkUser';
 export const LOGOUT = 'logOut'
 export const CHECK_GITHUB_USER= 'checkGithubUser';
 export const REGISTER = 'register';
+export const GET_GITHUB_USER = 'getGithubUser';
 // User Module Region

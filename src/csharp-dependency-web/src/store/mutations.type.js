@@ -6,5 +6,6 @@ export const SET_LANGUAGE= 'setLanguage';
 
 // User Module Region
 export const SET_USER = 'setUser';
-export const PURGE_USER = 'purgeUser'
+export const PURGE_USER = 'purgeUser';
+export const SET_GITHUB_USER = 'setGithubUser';
 // User Module Region

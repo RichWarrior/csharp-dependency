@@ -62,8 +62,8 @@ namespace csharp.dependency.api.Controllers
             }
             baseResult.data.user = user;
             baseResult.data.token = Generate_Token(user.id.ToString());
-            GithubUser githubUser = _SGithub.Get_Github_User(user.github_username);
-            await _SRedisService.Set((int)enumRedis.users, user.id.ToString(), JsonConvert.SerializeObject(githubUser),DateTime.Now.AddHours(3));
+            //GithubUser githubUser = _SGithub.Get_Github_User(user.github_username);
+            //await _SRedisService.Set((int)enumRedis.users, user.id.ToString(), JsonConvert.SerializeObject(githubUser),DateTime.Now.AddHours(3));
             return new JsonResult(baseResult);
         }
 
@@ -172,9 +172,16 @@ namespace csharp.dependency.api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("getuser")]
-        public IActionResult Get_User()
+        public async Task<IActionResult> Get_User()
         {
-            return new JsonResult(new { });
+            BaseResult<ResponseGetUser> baseResult = new BaseResult<ResponseGetUser>();
+            User user = _SUser.Get_By_Id(GetUserId());
+            baseResult.data.user = await _SGithub.Get_Github_User(user,_SRedisService);
+            baseResult.data.followers = await _SGithub.Get_Github_Followers(user, _SRedisService);
+            baseResult.data.followings = await _SGithub.Get_Github_Following(user, _SRedisService);
+            baseResult.data.starredRepositories = await _SGithub.Get_Github_Starred_Repository(user,_SRedisService);
+            baseResult.data.repositories = await _SGithub.Get_Github_Repository(user,_SRedisService);
+            return new JsonResult(baseResult);
         }
 
         #region JWT
