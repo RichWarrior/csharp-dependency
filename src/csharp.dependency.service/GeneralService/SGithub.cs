@@ -95,7 +95,7 @@ namespace csharp.dependency.service.GeneralService
         {
             GithubUser rtn = null;
             string json =await _SRedisService.Get((int)enumRedis.users, user.id.ToString());
-            if (json == "null")
+            if (json == null)
             {
                 rtn = Get_Github_User(user.github_username);
                bool isOk =  await _SRedisService.Set((int)enumRedis.users, user.id.ToString(), JsonConvert.SerializeObject(rtn), DateTime.Now.AddHours(1));
@@ -113,7 +113,7 @@ namespace csharp.dependency.service.GeneralService
         {
             List<GithubFollowers> rtn = null;
             string json = await _SRedisService.Get((int)enumRedis.followers, user.id.ToString());
-            if (json == "null")
+            if (json == null)
             {
                 rtn = Get_Github_Followers(user.github_username);
                 bool isOk = await _SRedisService.Set((int)enumRedis.followers, user.id.ToString(), JsonConvert.SerializeObject(rtn), DateTime.Now.AddHours(1));
@@ -131,7 +131,7 @@ namespace csharp.dependency.service.GeneralService
         {
             List<GithubFollowing> rtn = null;
             string json = await _SRedisService.Get((int)enumRedis.following, user.id.ToString());
-            if (json == "null")
+            if (json == null)
             {
                 rtn = Get_Github_Following(user.github_username);
                 bool isOk = await _SRedisService.Set((int)enumRedis.following, user.id.ToString(), JsonConvert.SerializeObject(rtn), DateTime.Now.AddHours(1));
@@ -149,7 +149,7 @@ namespace csharp.dependency.service.GeneralService
         {
             List<GithubStarredRepository> rtn = null;
             string json = await _SRedisService.Get((int)enumRedis.starred_repository, user.id.ToString());
-            if (json == "null")
+            if (json == null)
             {
                 rtn = Get_Github_Starred_Repository(user.github_username);
                 bool isOk = await _SRedisService.Set((int)enumRedis.starred_repository, user.id.ToString(), JsonConvert.SerializeObject(rtn), DateTime.Now.AddHours(1));
@@ -167,7 +167,7 @@ namespace csharp.dependency.service.GeneralService
         {
             List<GithubRepository> rtn = null;
             string json = await _SRedisService.Get((int)enumRedis.repository, user.id.ToString());
-            if (json == "null")
+            if (json == null)
             {
                 rtn = Get_Github_Repository(user.github_username);
                 bool isOk = await _SRedisService.Set((int)enumRedis.repository, user.id.ToString(), JsonConvert.SerializeObject(rtn), DateTime.Now.AddHours(1));

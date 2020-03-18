@@ -84,14 +84,14 @@ export default {
           parentMenuId:0,
           name:this.$t('menu.starredRepo'),
           icon:'fa fa-star',
-          route:'/starredrepo'
+          route:'/starred'
         },
         {
           id:5,
           parentMenuId:0,
           name:this.$t('menu.repository'),
           icon:'fas fa-code-branch',
-          route:'/repository'
+          route:'/repo'
         }
       ]
     };
@@ -117,7 +117,7 @@ export default {
     route(menuId) {
       const menu = this.menu.filter(x => x.id === menuId);
       if (menu.length > 0) {
-        this.$router.push({ path: menu[0].route });
+        this.$router.push({ path: menu[0].route })
       }
     }
   }

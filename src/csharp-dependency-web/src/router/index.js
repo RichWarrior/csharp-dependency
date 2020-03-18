@@ -16,6 +16,26 @@ const routes = [
   {
     path:'/home',
     component:()=>import('../views/home/index')
+  },
+  {
+    path:'/followers',
+    component:() =>import('../views/followers')
+  },
+  {
+    path:'/following',
+    component:()=>import('../views/following')
+  },
+  {
+    path:'/starred',
+    component:()=>import('../views/starred')
+  },
+  {
+    path:'/repo',
+    component:()=>import('../views/repository')
+  },
+  {
+    path:'*',
+    component:()=>import('../views/error/404')
   }
 ]
 

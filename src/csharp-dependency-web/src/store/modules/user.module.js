@@ -42,7 +42,7 @@ const getters = {
     return state.githubStarredRepository;
   },
   getGithubRepository: state => {
-    return state.githubStarredRepository;
+    return state.githubRepository;
   }
 };
 
