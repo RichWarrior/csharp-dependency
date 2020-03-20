@@ -3,6 +3,7 @@ import i18n from './locales/index';
 import App from './App.vue'
 import router from "./router/";
 import store from "./store";
+import VueSocketIO from 'vue-socket.io';
 import ApiService from "./common/api.service";
 import { setupComponents } from "./store/setup.component";
 import vuetify from './plugins/vuetify';
@@ -28,6 +29,11 @@ router.beforeEach((to, from, next) => {
   } 
   next();
 })
+
+Vue.use(new VueSocketIO({
+  connection: 'http://localhost:8081'
+}));
+
 
 new Vue({
   i18n,

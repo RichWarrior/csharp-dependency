@@ -10,6 +10,11 @@ test/csharp.dependency.api.test/bin
 /src/csharp-dependency-web/node_modules
 /src/csharp-dependency-web/dist
 /src/csharp-dependency-web/package-lock.json
+/src/csharp-dependency-socket/node_modules
+/src/csharp-dependency-socket/dist
+/src/csharp-dependency-socket/package-lock.json
+/src/csharp.dependency.socket.client/obj
+/src/csharp.dependency.socket.client/bin
 
 # local env files
 .env.local
