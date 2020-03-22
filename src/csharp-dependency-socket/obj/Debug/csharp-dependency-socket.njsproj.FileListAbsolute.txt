@@ -1,0 +1,2 @@
+C:\Projects\csharp-dependency\src\csharp-dependency-socket\obj\Debug\csharp-dependency-socket.njsprojAssemblyReference.cache
+C:\Projects\csharp-dependency\src\csharp-dependency-socket\bin\Microsoft.NodejsTools.WebRole.dll
