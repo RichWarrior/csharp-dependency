@@ -10,7 +10,17 @@ namespace csharp.dependency.socket.client
         static void Main(string[] args)
         {
             var client = new SocketIO("http://192.168.2.162:8081");
-            Task task = new Task(() => { client.ConnectAsync(); });
+            Task task = new Task(() => {
+                try
+                {
+                    client.ConnectAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                }
+            
+            });
             task.RunSynchronously();
             if (client.State == SocketIOState.Connected)
             {

@@ -1,5 +1,4 @@
 ﻿using csharp.dependency.api.Models;
-using csharp.dependency.core.CustomEntity.Github;
 using csharp.dependency.core.CustomEntity.Request.User;
 using csharp.dependency.core.CustomEntity.Response.User;
 using csharp.dependency.core.Entity;
@@ -10,7 +9,6 @@ using csharp.dependency.service.GeneralService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -62,8 +60,6 @@ namespace csharp.dependency.api.Controllers
             }
             baseResult.data.user = user;
             baseResult.data.token = Generate_Token(user.id.ToString());
-            //GithubUser githubUser = _SGithub.Get_Github_User(user.github_username);
-            //await _SRedisService.Set((int)enumRedis.users, user.id.ToString(), JsonConvert.SerializeObject(githubUser),DateTime.Now.AddHours(3));
             return new JsonResult(baseResult);
         }
 

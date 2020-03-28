@@ -112,6 +112,7 @@ namespace csharp.dependency.api
             services.AddScoped<IMethod, SMethod>();
             services.AddScoped<IGithub, SGithub>();
             services.AddScoped<IUser, SUser>();
+            services.AddScoped<IServer, SServer>();
             #endregion
             #region RedisService
             services.AddSingleton<SRedisService>();

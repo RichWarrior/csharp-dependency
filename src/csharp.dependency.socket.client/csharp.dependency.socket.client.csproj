@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\csharp.dependency.core\csharp.dependency.core.csproj" />
+    <ProjectReference Include="..\csharp.dependency.service\csharp.dependency.service.csproj" />
   </ItemGroup>
 
 </Project>

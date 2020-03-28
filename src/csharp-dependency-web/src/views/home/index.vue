@@ -172,6 +172,14 @@ export default {
         this.followings = this.$store.getters.getGithubFollowings;
         this.starredRepositories = this.$store.getters.getGithubStarredRepository;
         this.repositories = this.$store.getters.getGithubRepository;
+        this.repositories.forEach((item)=>{
+          item.dependencies = [];
+          item.loading = false;
+        });
+        this.starredRepositories.forEach((item)=>{
+          item.dependencies  =  [];
+          item.loading = false;
+        })
       })
       .catch(err => {
         this.$swal(this.$t("base.errorTitle"), this.$t(err.message), "error");

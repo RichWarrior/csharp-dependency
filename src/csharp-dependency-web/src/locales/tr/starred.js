@@ -5,5 +5,13 @@ export default{
         language:'Proje Dili',
         visualize: 'İşlemler'
     },
-    viewDetails:'Devamını Görüntüle'
+    viewDetails:'Devamını Görüntüle',
+    dependencySwalText : 'Proje Kaynakları İncelenmeye Başladı',
+    dependencyField:{
+        include : 'Ad',
+        includeType:'Referans Tipi',
+        version:'Versiyon'
+    },
+    package : 'Paket',
+    project : 'Proje'
 }

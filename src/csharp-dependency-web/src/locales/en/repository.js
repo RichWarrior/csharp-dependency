@@ -5,5 +5,13 @@ export default{
         language:'Project Language',
         visualize: 'Actions'
     },
-    viewDetails:'View Details'
+    viewDetails:'View Details',
+    dependencySwalText:'Project Resources Started To Be Examined',
+    dependencyField:{
+        include : 'Name',
+        includeType:'Reference Type',
+        version:'Version'
+    },
+    package : 'Package',
+    project : 'Project'
 }

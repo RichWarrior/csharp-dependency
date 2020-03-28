@@ -27,8 +27,7 @@ io.on("connection", (socket) => {
     socket.on('showDependency', (repo,dependencies) => {
         let clients = requestArr.filter(x => x.repoId === repo.id);
         clients.forEach((item) => {            
-            const id = item.socketId;
-            //io.to(item.socketId).emit('_showDependency', dependencies);            
+            io.emit("_showDependency", repo, dependencies);
             console.log(`${item.socketId} Published ${repo.name} Project Dependencies`);
             let indexOf = requestArr.indexOf(item);
             requestArr.splice(indexOf,1);

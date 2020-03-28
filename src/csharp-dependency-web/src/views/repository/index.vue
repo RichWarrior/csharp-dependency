@@ -25,6 +25,10 @@ export default {
       .dispatch(GET_REPOSITORY)
       .then(() => {
           this.repositories  = this.$store.getters.getRepositories;
+          this.repositories.forEach((item)=>{
+            item.loading = false;
+            item.dependencies = []
+          });
       })
       .catch(err => {
         this.$swal(this.$t("base.errorTitle"), this.$t(err.message), "error");
