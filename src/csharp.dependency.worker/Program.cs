@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using csharp.dependency.worker.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace csharp.dependency.worker
 {
@@ -18,7 +16,27 @@ namespace csharp.dependency.worker
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    if (args.Length>0)
+                    {
+                        try
+                        {
+                            int _args = Convert.ToInt32(args[0]);
+                            enumArgs enumArgs = (enumArgs)_args;
+                            switch (enumArgs)
+                            {
+                                case Enums.enumArgs.serverWorker:
+                                    services.AddHostedService<ServerWorker>();
+                                    break;
+                                default:
+                                    Console.WriteLine($"Bilinmeyen Args:{_args}");
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }                    
                 });
     }
 }

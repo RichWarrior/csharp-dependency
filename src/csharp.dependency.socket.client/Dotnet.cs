@@ -46,11 +46,11 @@ namespace csharp.dependency.socket.client
                             SshClient sshClient = null;
                             if (Debugger.IsAttached)
                             {
-                                sshClient = new SshClient(server.local_ip, server.local_port, "root", "03102593");
+                                sshClient = new SshClient(server.local_ip, server.local_port, "root", "");
                             }
                             else
                             {
-                                sshClient = new SshClient(server.remote_ip, server.remote_port, "root", "CB4434000bc");
+                                sshClient = new SshClient(server.remote_ip, server.remote_port, "root", "");
                             }
                             using (sshClient)
                             {
@@ -107,11 +107,11 @@ namespace csharp.dependency.socket.client
                                             SftpClient sftp = null;
                                             if (Debugger.IsAttached)
                                             {
-                                                sftp = new SftpClient(server.local_ip, server.local_port, "root", "03102593");
+                                                sftp = new SftpClient(server.local_ip, server.local_port, "root", "");
                                             }
                                             else
                                             {
-                                                sftp = new SftpClient(server.remote_ip, server.remote_port, "root", "03102593");
+                                                sftp = new SftpClient(server.remote_ip, server.remote_port, "root", "");
                                             }
                                             using (sftp)
                                             {
