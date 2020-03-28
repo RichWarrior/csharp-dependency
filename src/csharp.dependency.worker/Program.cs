@@ -16,6 +16,8 @@ namespace csharp.dependency.worker
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
+                    //args = new string[1];
+                    //args[0] = "0";
                     if (args.Length>0)
                     {
                         try

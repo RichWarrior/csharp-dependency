@@ -1,5 +1,8 @@
-﻿namespace csharp.dependency.core.Entity
+﻿using Dapper.Contrib.Extensions;
+
+namespace csharp.dependency.core.Entity
 {
+    [Table("server")]
     public class Server : BaseEntity
     {
         public string server_name { get; set; }
